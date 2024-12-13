@@ -1,9 +1,7 @@
-name: "Check Android SDK and Emulator Installation"
+name: "Check Android SDK and Emulator Installation and Run Tests"
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
 
 jobs:
   check_android_sdk:
@@ -44,3 +42,8 @@ jobs:
           else
             echo "Android Emulator is not installed"
           fi
+
+      - name: Run Android Emulator Tests
+        run: |
+          echo "Running Android Emulator Tests..."
+          ./build.sh --android --android_api=27 --android_ndk_path=${ANDROID_NDK_LATEST_HOME} --config=RelWithDebInfo --android_abi=${{ env.ANDROID_ABI }} --parallel --build_java --android_run_emulator --test
